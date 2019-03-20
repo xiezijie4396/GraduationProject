@@ -150,7 +150,7 @@ export default {
       }
 
       function readFile() {
-        if (dataArr.length >= 1) {
+        if (dataArr.length >= 2) {
           alert("头像最多只能选择一张！如果想更换头像请先删除原有的头像...");
           return;
         }
@@ -180,7 +180,7 @@ export default {
             }
             result =
               `<div class="showdiv">
-            <img class="center" src="http://img2.3png.com/d134d326ddd9a679b6baacdd90e5ef6d1aff.png" />
+            <img class="center" src="data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgaWQ9IiVFNSU4OCVBMCVFOSU5OSVBNCIgd2lkdGg9IjI1NiIgaGVpZ2h0PSIyNTYiIHN0eWxlPSJ3aWR0aDoyNTZweDtoZWlnaHQ6MjU2cHg7IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMTAyNCAxMDI0IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSIjNjY2IiBkPSJNNjgxLjkgMzQwLjk1IGwwIDQ1NS4zNyBsNTcuMjEgMCBsMCAtNDU1LjM3IGwtNTcuMjEgMCBsMCAwIFpNNDgzLjk3IDc5Ni4zMiBsMCAtNDU1LjM3IGw1Ni4wNiAwIGwwIDQ1NS4zNyBsLTU2LjA2IDAgbDAgMCBaTTI4NC44OSAzNDAuOTUgbDAgNDU1LjM3IGw1Ni4wNiAwIGwwIC00NTUuMzcgbC01Ni4wNiAwIGwwIDAgWk03MzkuMTEgMTcwLjQ4IGwyODQuODkgMCBsMCA1Ny4yIGwtMTE0LjQxIDAgbDAgNzM5LjExIHEwIDI0LjAzIC0xNi4wMiA0MC4wNSBxLTE2LjAyIDE2LjAyIC00MS4xOSAxNi4wMiBsLTY4MS45IDAgcS0yNC4wMyAwIC00MC4wNSAtMTYuMDIgcS0xNi4wMiAtMTYuMDIgLTE2LjAyIC00MC4wNSBsMCAtNzM5LjExIGwtMTE0LjQxIDAgbDAgLTU3LjIgbDI4NC44OSAwIGwwIC0xMTMuMjcgcTAgLTI0LjAzIDE2LjAyIC00MC4wNSBxMTYuMDIgLTE2LjAyIDQwLjA0IC0xNy4xNiBsMzQwLjk1IDAgcTI1LjE3IDEuMTQgNDEuMTkgMTcuMTYgcTE2LjAyIDE2LjAyIDE2LjAyIDQwLjA1IGwwIDExMy4yNyBsMCAwIFpNMzQwLjk1IDU3LjIxIGwwIDExMy4yNyBsMzQwLjk1IDAgbDAgLTExMy4yNyBsLTM0MC45NSAwIGwwIDAgWk04NTIuMzggOTY2Ljc5IGwwIC03MzkuMTEgbC02ODEuOSAwIGwwIDczOS4xMSBsNjgxLjkgMCBsMCAwIFoiLz48L3N2Zz4=" />
             </div>` +
               '<img id="img' +
               currentReViewImgIndex +

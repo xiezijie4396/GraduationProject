@@ -18,13 +18,18 @@ const mutations = {
       state.goods.push(payload)
     }
   },
-
+  CLEARSHOPCAR(state, payload){
+    state.goods = []
+  },
 }
 
 const actions = {
   toShopCar ({commit}, payload) {
     commit("TOSHOPCAR", payload)
-  }
+  },
+  clearShopCar ({commit}) {
+    commit("CLEARSHOPCAR")
+  },
 }
 
 export default {

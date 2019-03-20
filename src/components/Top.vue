@@ -233,6 +233,7 @@ export default {
         userId : '',
         isLogined : false
       })
+      this.$store.dispatch('clearShopCar')
       this.$router.push({
         path: '/'
       })
