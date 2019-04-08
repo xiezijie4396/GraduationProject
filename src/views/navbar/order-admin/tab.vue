@@ -32,16 +32,18 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th colspan="4">地址</th>
-              <th colspan="2">姓名</th>
-              <th colspan="2">联系方式</th>
+              <th colspan="5">地址</th>
+              <th colspan="1">姓名</th>
+              <th colspan="1">联系方式</th>
+              <th colspan="1">总价</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td colspan="4">{{order.address}}</td>
-              <td colspan="2">{{order.buyerName}}</td>
-              <td colspan="2">{{order.phone}}</td>
+              <td colspan="5">{{order.address}}</td>
+              <td colspan="1">{{order.buyerName}}</td>
+              <td colspan="1">{{order.phone}}</td>
+              <td colspan="1" style="color: orange;font-weight: bolder;font-size: 16px;">￥{{order.wantNum * order.price}}</td>
             </tr>
           </tbody>
         </table>
@@ -50,27 +52,26 @@
         <template v-if="order.status === '待顾客确认' && order.buyerName === userName ">
           <div class="btns pull-left btns-footer" v-if="order.status === '待顾客确认' && order.buyerName === userName">
             <button class="btn btn-primary" @click="editItem(order)">编辑订单</button>
-            <button class="btn btn-danger" @click="submitOrder(order._id, 1)">取消订单</button>
           </div>
           <div class="btns pull-right btns-footer">
-              <button class="btn btn-success" @click="submitOrder(order._id, '待店主确认')">确认订单</button>
+              <button class="btn btn-success" @click="submitOrder(order._id, '待店主确认', 'buyer')">确认订单</button>
           </div>
         </template>
         <!-- 只有店主能进行的操作 待店主确认->店主已确认、店主已确认->已完成 -->
         <template v-else-if="order.status === '待店主确认' && order.salerName === userName">
           <div class="btns pull-right btns-footer">
-              <button class="btn btn-success" @click="submitOrder(order._id, '店主已确认')">确认订单</button>
+              <button class="btn btn-success" @click="submitOrder(order._id, '店主已确认', 'saler')">确认订单</button>
           </div>
         </template>
         <template v-else-if="order.status === '店主已确认' && order.salerName === userName">
           <div class="btns pull-right btns-footer">
-              <button class="btn btn-success" @click="submitOrder(order._id, '已完成')">完成订单</button>
+              <button class="btn btn-success" @click="submitOrder(order._id, '已完成', 'saler')">完成订单</button>
           </div>
         </template>
         <!-- 只有管理员能进行的操作 删除订单 -->
         <template v-else-if="userName === 'admin'">
           <div class="btns pull-right btns-footer">
-            <button class="btn btn-success" @click="submitOrder(order._id, 1)">删除订单</button>
+            <button class="btn btn-success" @click="submitOrder(order._id, 1, 'admin')">删除订单</button>
           </div>
         </template>
       </div>
@@ -82,7 +83,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">购物车</h4>
+            <h4 class="modal-title" id="myModalLabel">编辑订单</h4>
           </div>
           <div class="modal-body">
             <table class="table table-bordered">
@@ -107,9 +108,8 @@
             </table>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success pull-right" @click="saveItem(currentOrder._id, currentOrder)">保存</button>
-            <button type="button" class="btn btn-warning pull-left">删除</button>
-            <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-success pull-right" @click="saveItem(currentOrder._id, currentOrder)">保存修改</button>
+            <button type="button" class="btn btn-danger pull-left" @click="submitOrder(currentOrder._id, 1, 'admin')">取消订单</button>
           </div>
         </div>
       </div>
@@ -146,18 +146,19 @@ export default {
     saveItem(id, obj){
       var params = this.$common.setParams([
         {name: 'id', param: id},
-        {name: 'goods', param: JSON.stringify(obj.goods)},
+        {name: 'order', param: JSON.stringify(obj)},
       ])
-      this.axios.post('/api/order/changeObj', params).then((res)=>{
+      this.axios.post('/api/order/changeNum', params).then((res)=>{
         alert('保存成功')
         this.$emit('changeData')
          $('#editModal').modal('hide')
       })
     },
-    submitOrder(id, status){
+    submitOrder(id, status, kind){
       var params = this.$common.setParams([
         {name: 'id', param: id},
         {name: 'status', param: status},
+        {name: 'kind', param: kind},
       ])
       this.axios.post('/api/order/changeStatus', params).then((res)=>{
         this.$emit('changeData')
@@ -198,8 +199,7 @@ export default {
       padding-top: 20px;
     }
   }
-  #editModal{
-    .table.table-bordered{
+  .table.table-bordered{
       margin: 0 auto 10px auto;
       th{
         white-space: nowrap;
@@ -209,6 +209,12 @@ export default {
         vertical-align: middle;
       }
     }
-  }
+    #editModal{
+      .modal-footer{
+        button{
+          margin: 5px;
+        }
+      }
+    }
 }
 </style>

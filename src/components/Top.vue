@@ -143,6 +143,9 @@ export default {
   mounted(){
     this.getOrder()
   },
+  updated(){
+    this.getOrder()   // 处理切换用户时订单数据没有及时更新的问题
+  },
   computed:{
     loginMsg(){
       return this.$store.state.login
@@ -242,6 +245,7 @@ export default {
       this.$router.push({
         path: '/'
       })
+      alert('退出成功!')
     },
     setCheckAll($event){                        // 点击购物车全选框进行的处理
       this.shopCar.forEach((good)=>{
