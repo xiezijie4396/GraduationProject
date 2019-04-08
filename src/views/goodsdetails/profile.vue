@@ -40,8 +40,8 @@ export default {
     good: Object,
   },
   methods:{
-    toShopCar(){                                            // 加入购物车
-      if(!this.userDetail || this.userDetail.name === '' || this.userDetail.phone === '' || this.userDetail.address === ''){
+    toShopCar(){
+      if(!this.userDetail || !this.userDetail.name || !this.userDetail.phone || !this.userDetail.address){
         alert('必须填入姓名、地址、联系电话才能进行正常的购买操作')
         let result = window.confirm('是否进入个人资料页面进行资料填写?')
         if(result == true){
@@ -55,11 +55,13 @@ export default {
         alert('不能购买自己的商品')
         return
       }
-      this.$store.dispatch('toShopCar', this.good)
+      this.$store.dispatch('toShopCar', this.good).then(() => {
+        alert('加入购物车成功!!')
+      })
     },
     buy(){
       var items = []
-      if(!this.userDetail || this.userDetail.name === '' || this.userDetail.phone === '' || this.userDetail.address === ''){
+      if(!this.userDetail || !this.userDetail.name || !this.userDetail.phone || !this.userDetail.address){
         alert('必须填入姓名、地址、联系电话才能进行正常的购买操作')
         let result = window.confirm('是否进入个人资料页面进行资料填写?')
         if(result == true){

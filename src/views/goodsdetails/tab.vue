@@ -1,13 +1,13 @@
 <template>
   <div class="tab">
     <ul id="myTab" class="nav nav-tabs">
-        <li><a href="#details" data-toggle="tab">商品详情</a></li>
+        <li class="active"><a href="#details" data-toggle="tab">商品详情</a></li>
         <li><a href="#ios" data-toggle="tab">规格参数</a></li>
-        <li class="active"><a href="#rated" data-toggle="tab">店家评价</a></li>
+        <li><a href="#rated" data-toggle="tab">店家评价</a></li>
     </ul>
     <div id="myTabContent" class="tab-content">
         <!-- 商品详情 -->
-        <div class="tab-pane fade" id="details" v-html="good.detail"></div>
+        <div class="tab-pane fade in active" id="details" v-html="good.detail"></div>
         <!-- 规格参数 -->
         <div class="tab-pane fade" id="ios">
           <div class="panel panel-default">
@@ -102,7 +102,7 @@
           </div>
         </div>
         <!-- 店家评论区 -->
-        <div class="tab-pane fade in active" id="rated">
+        <div class="tab-pane fade" id="rated">
           <div class="shopData" v-if="comments[0]">
             <div class="col-xs-4">店家：{{comments[0].salerId.username}}</div>
           </div>
@@ -212,6 +212,9 @@ export default {
     th{
       white-space:nowrap;
     }
+  }
+  textarea{
+    margin-bottom: 10px;
   }
 }
 </style>

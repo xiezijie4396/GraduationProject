@@ -128,7 +128,7 @@ export default {
       var dateli, dateinput;
       var _this = this;
       //  初始化的时候将原有图片数据保存起来
-      if(_this.headImg !== 'undefined'){
+      if(_this.headImg !== undefined){
         dataArr.push(_this.headImg);
       }
       function randomString(len) {

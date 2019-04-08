@@ -87,9 +87,13 @@ export default {
 </script>
 
 
-<style scoped>
+<style scoped lang="less">
 .index{
   width: 800px;
   margin: 0 auto;
+  .goods-title{
+    height: 100px;
+    overflow: hidden;
+  }
 }
 </style>

@@ -98,7 +98,7 @@
                   <th><input type="checkbox" @click="setCheckAll($event)" v-model="checkAll"></th>
                   <th>商品名称</th>
                   <th>商品单价</th>
-                  <th>商品数量</th>
+                  <th style="min-width: 100px">商品数量</th>
                 </tr>
               </thead>
               <tbody>
@@ -150,10 +150,15 @@ export default {
     shopCar(){
       return this.$store.state.shopCar.goods
     },
+    userDetail(){
+      return this.loginMsg.userDetail
+    },
     Totalprice(){
       var sum = 0
       this.shopCar.forEach((e)=>{
-        sum += e.price * e.wantNum
+        if(e.checked){
+          sum += e.price * e.wantNum
+        }
       })
       return sum
     },
@@ -264,6 +269,10 @@ export default {
       })
     },
     buy(){
+      if(!this.Totalprice){
+        alert('请先选择产品和产品数量，再点击购买')
+        return
+      }
       var items = []
       this.shopCar.forEach((e) => {
         items.push({
@@ -273,6 +282,8 @@ export default {
           num: e.num,
           buyerName: this.loginMsg.username,
           salerName: e.saler,
+          address: this.userDetail.address,
+          phone: this.userDetail.phone
         })
       })
       var params = this.$common.setParams([
@@ -280,9 +291,12 @@ export default {
       ])
       this.axios.post('/api/order/create',params).then((res)=>{
         alert('订单已生成，请进行后续的操作')
-        $('#shoppingModal').modal('hide')
-        this.$router.push({
-          path: '/order'
+        // 生成订单后清空购物车
+        this.$store.dispatch('clearShopCar').then((result) => {
+          $('#shoppingModal').modal('hide')
+          this.$router.push({
+            path: '/order'
+          })
         })
       })
     },
@@ -302,6 +316,7 @@ export default {
   }
   td{
     text-align: center;
+    vertical-align: middle;
   }
   input{
     width: 100%;
@@ -309,6 +324,7 @@ export default {
 }
 #shoppingModal{
   .table.table-bordered{
+    margin-bottom: 10px;
     input{
       width: unset;
     }
