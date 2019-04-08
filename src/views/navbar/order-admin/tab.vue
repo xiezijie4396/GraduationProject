@@ -162,6 +162,9 @@ export default {
       ])
       this.axios.post('/api/order/changeStatus', params).then((res)=>{
         this.$emit('changeData')
+        if(kind == 'admin'){
+          $('#editModal').modal('hide')
+        }
       })
     },
     changeRead(id, type){

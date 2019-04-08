@@ -24,7 +24,7 @@
           <div class="form-group">
             <label for="inputEmail3" class="col-sm-2 col-sm-offset-2 control-label">手机</label>
             <div class="col-sm-6">
-              <input type="text" class="form-control" v-model="phone">
+              <input type="text" class="form-control" v-model="phone" name="phone">
             </div>
           </div>
           <div class="form-group">
@@ -150,7 +150,7 @@ export default {
       }
 
       function readFile() {
-        if (dataArr.length >= 2) {
+        if (dataArr.length >= 1) {
           alert("头像最多只能选择一张！如果想更换头像请先删除原有的头像...");
           return;
         }
@@ -217,13 +217,9 @@ export default {
         }
       }
 
-      showui.addEventListener(
-        "click",
-        function() {
-          onclickimg();
-        },
-        true
-      );
+      showui.addEventListener("click",function() {
+        onclickimg();
+      },true);
 
       function send() {
         _this.submitImg(dataArr);
@@ -244,6 +240,13 @@ export default {
       this.submitData();
     },
     submitData() {
+      // 检验手机合法性
+      var reg = /^1\d{10}$/
+      if(!reg.test(this.phone)){
+        alert('手机号码应该有11位数字，以1开头')
+        $('[name=phone]').val('').focus()
+        return
+      }
       // 提交数据
       var params = this.$common.setParams([
         {name: 'id', param: this.$route.query.id},

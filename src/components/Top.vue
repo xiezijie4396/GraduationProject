@@ -118,8 +118,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" @click="buy">立即购买</button>
-            <button type="button" class="btn btn-primary pull-left">全选</button>
-            <button type="button" class="btn btn-warning pull-left">删除</button>
+            <button type="button" class="btn btn-warning pull-left" @click="deleteGoods">删除</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
           </div>
         </div>
@@ -306,6 +305,22 @@ export default {
     },
     getOrder(){
       this.$store.dispatch('getOrder')
+    },
+    // 删除购物车中的某一项
+    deleteGoods(){
+      var count = 0
+      this.shopCar.forEach((e, i) => {
+        if(e.checked){
+          this.shopCar.splice(i, 1)
+          count++
+        }
+      })
+      // count为0 代表待删除的项为0
+      if(!count){
+        alert('请先选择待删除的项')
+      }else{
+        alert('删除成功')
+      }
     }
   },
 }
