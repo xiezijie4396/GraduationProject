@@ -7,7 +7,7 @@ const state = {
 const mutations = {
   // 获得所有订单
   GETORDER(state){
-    this._vm.axios.post('/api/order/get').then((res)=>{
+    this._vm.axios.post('/api/order/get').then(res=>{
       state.order = []
       res.data.forEach((e)=>{
         state.order.push(e)

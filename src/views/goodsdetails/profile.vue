@@ -55,7 +55,11 @@ export default {
         alert('不能购买自己的商品')
         return
       }
-      this.$store.dispatch('toShopCar', this.good).then(() => {
+      var currentGood = Object.assign({},this.good)
+      currentGood.num = 1
+      currentGood.totalNum = this.good.num
+      // currentGood 当前购买的商品
+      this.$store.dispatch('toShopCar', currentGood).then(() => {
         alert('加入购物车成功!!')
       })
     },
@@ -75,20 +79,25 @@ export default {
         alert('不能购买自己的商品')
         return
       }
+      var currentGood = Object.assign({},this.good)
+      currentGood.num = 1
+      currentGood.totalNum = this.good.num
+
       items.push({
-        name: this.good.name,
-        price: this.good.price,
-        wantNum: this.good.wantNum == 0 ? 1 : this.good.wantNum,
-        num: this.good.num,
+        name: currentGood.name,
+        price: currentGood.price,
+        num: currentGood.num,
+        totalNum: currentGood.totalNum,
         buyerName: this.userName,
-        salerName: this.good.saler,
-        goodsId: this.good._id,
+        salerName: currentGood.saler,
+        goodsId: currentGood._id,
         address: this.userDetail.address,
         phone: this.userDetail.phone
       })
       var params = this.$common.setParams([
         {name: 'items', param: JSON.stringify(items)},
       ])
+      
       this.axios.post('/api/order/create',params).then((res)=>{
         alert('订单已生成，请进行后续的操作')
         this.$router.push({

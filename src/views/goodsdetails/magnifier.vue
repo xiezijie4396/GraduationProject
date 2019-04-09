@@ -32,7 +32,7 @@ export default {
         $square.css('display', 'none')
         return;
       }
-      $square.css('display', 'block')
+      $square.css('display', 'none')
       let $smallbox = $('.small-box')
       let smallboxLeft = $smallbox.offset().left
       let smallboxTop = $smallbox.offset().top

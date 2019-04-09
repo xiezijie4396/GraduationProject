@@ -155,7 +155,7 @@ export default {
     }
   },
   methods:{
-    getComments(){
+     getComments(){
       var params = this.$common.setParams([
         {name: 'salerId', param: this.good.salerId},
       ])

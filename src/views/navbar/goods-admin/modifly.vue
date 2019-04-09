@@ -237,7 +237,9 @@ export default {
       var dateli, dateinput;
       var _this = this;
       //  初始化的时候将原有图片数据保存起来
-      dataArr = _this.upLoadImg
+      if(_this.upLoadImg !== undefined){
+        dataArr.push(_this.upLoadImg);
+      }
       function randomString(len) {　　
         len = len || 32;　　
         var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'; /****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/ 　　
@@ -256,6 +258,10 @@ export default {
       }
 
       function readFile() {
+        if (dataArr.length >= 1) {
+          alert("图片最多只能选择一张！如果想更换图片请先删除原有的图片...");
+          return;
+        }
         fd = new FormData();
         var iLen = this.files.length;
         var index = 0;
@@ -280,9 +286,7 @@ export default {
               currentReViewImgIndex = j
             }
             result = `<div class="showdiv">
-            <img class="left" src="http://img2.3png.com/c35019a17762745be21947e3e94829c05c6e.png" />
             <img class="center" src="http://img2.3png.com/d134d326ddd9a679b6baacdd90e5ef6d1aff.png" />
-            <img class="right" src="http://img2.3png.com/07b1b824275f5deead241c24cf9e74060b88.png" />
             </div>`+
             '<img id="img' +currentReViewImgIndex+randomString(1)+randomString(2) +randomString(5) + '" class="showimg" src="' + this.result + '" />';
             var li = document.createElement('li');
@@ -297,26 +301,8 @@ export default {
         var dataArrlist = dataArr.length;
         var lilength = document.querySelectorAll('ul#showui li');
         for(var i = 0; i < lilength.length; i++) {
-          lilength[i].getElementsByTagName('img')[0].onclick = function(num) {
-            return function() {
-              if(num == 0) {} else {
-                var list = 0;
-                for(var j = 0; j < dataArr.length; j++) {
-                  list = j
-                }
-                var up = num - 1;
-                dataArr.splice(up, 0, dataArr[num]);
-                dataArr.splice(num + 1, 1)
-                var lists = $("ul#showui li").length;
-                for(var j = 0; j < lists; j++) {
-                  var usid = $("ul#showui li")[j].getElementsByTagName('img')[3];
-                  $("#" +usid.id+ "").attr("src", dataArr[j].base64)
-                }
-              }
-            }
-          }(i)
           //删除图标
-          lilength[i].getElementsByTagName('img')[1].onclick = function(num) {
+          lilength[i].getElementsByTagName('img')[0].onclick = function(num) {
             return function() {
               if(dataArr.length == 1) {
                 dataArr = [];
@@ -326,23 +312,6 @@ export default {
                 dataArr.splice(num, 1)
               }
 
-            }
-          }(i)
-          //右箭头图标
-          lilength[i].getElementsByTagName('img')[2].onclick = function(num) {
-            return function() {
-              var list = 0;
-              for(var j = 0; j < dataArr.length; j++) {
-                list = j
-              }
-              var datalist = list + 1;
-              dataArr.splice(datalist, 0, dataArr[num]);
-              dataArr.splice(num, 1)
-              var lists = $("ul#showui li").length;
-              for(var j = 0; j < lists; j++) {
-                var usid = $("ul#showui li")[j].getElementsByTagName('img')[3];
-                $("#" + usid.id + "").attr("src", dataArr[j].base64)
-              }
             }
           }(i)
         }
@@ -394,9 +363,7 @@ export default {
         // 上传图片显示
         this.upLoadImg.forEach((e)=>{
           var result = `<div class="showdiv">
-          <img class="left" src="http://img2.3png.com/c35019a17762745be21947e3e94829c05c6e.png" />
           <img class="center" src="http://img2.3png.com/d134d326ddd9a679b6baacdd90e5ef6d1aff.png" />
-          <img class="right" src="http://img2.3png.com/07b1b824275f5deead241c24cf9e74060b88.png" />
           </div>`+
           '<img id="img'+ ''+ e.name +'" class="showimg" src="'+ e.base64 +'" />';
           var li = document.createElement('li');

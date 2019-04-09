@@ -254,6 +254,10 @@ export default {
       }
 
       function readFile() {
+        if (dataArr.length >= 1) {
+          alert("图片最多只能选择一张！如果想更换图片请先删除原有的图片...");
+          return;
+        }
         fd = new FormData();
         var iLen = this.files.length;
         var index = 0;
@@ -278,9 +282,7 @@ export default {
               currentReViewImgIndex = j
             }
             result = `<div class="showdiv">
-            <img class="left" src="http://img2.3png.com/c35019a17762745be21947e3e94829c05c6e.png" />
             <img class="center" src="http://img2.3png.com/d134d326ddd9a679b6baacdd90e5ef6d1aff.png" />
-            <img class="right" src="http://img2.3png.com/07b1b824275f5deead241c24cf9e74060b88.png" />
             </div>`+
             '<img id="img' +currentReViewImgIndex+randomString(1)+randomString(2) +randomString(5) + '" class="showimg" src="' + this.result + '" />';
             var li = document.createElement('li');
@@ -295,26 +297,8 @@ export default {
         var dataArrlist = dataArr.length;
         var lilength = document.querySelectorAll('ul#showui li');
         for(var i = 0; i < lilength.length; i++) {
-          lilength[i].getElementsByTagName('img')[0].onclick = function(num) {
-            return function() {
-              if(num == 0) {} else {
-                var list = 0;
-                for(var j = 0; j < dataArr.length; j++) {
-                  list = j
-                }
-                var up = num - 1;
-                dataArr.splice(up, 0, dataArr[num]);
-                dataArr.splice(num + 1, 1)
-                var lists = $("ul#showui li").length;
-                for(var j = 0; j < lists; j++) {
-                  var usid = $("ul#showui li")[j].getElementsByTagName('img')[3];
-                  $("#" +usid.id+ "").attr("src", dataArr[j].base64)
-                }
-              }
-            }
-          }(i)
           //删除图标
-          lilength[i].getElementsByTagName('img')[1].onclick = function(num) {
+          lilength[i].getElementsByTagName('img')[0].onclick = function(num) {
             return function() {
               if(dataArr.length == 1) {
                 dataArr = [];
@@ -322,24 +306,6 @@ export default {
               } else {
                 $("ul#showui li:eq(" + num + ")").remove()
                 dataArr.splice(num, 1)
-              }
-
-            }
-          }(i)
-          //右箭头图标
-          lilength[i].getElementsByTagName('img')[2].onclick = function(num) {
-            return function() {
-              var list = 0;
-              for(var j = 0; j < dataArr.length; j++) {
-                list = j
-              }
-              var datalist = list + 1;
-              dataArr.splice(datalist, 0, dataArr[num]);
-              dataArr.splice(num, 1)
-              var lists = $("ul#showui li").length;
-              for(var j = 0; j < lists; j++) {
-                var usid = $("ul#showui li")[j].getElementsByTagName('img')[3];
-                $("#" + usid.id + "").attr("src", dataArr[j].base64)
               }
             }
           }(i)
@@ -381,26 +347,6 @@ export default {
     },
     // 添加
     add(){
-      // if(this.brand === ''|| this.series === ''
-      //   || this.OS === ''|| this.videoType === ''
-      //   || this.CPU === ''|| this.ply === ''){
-      //   alert('请输入全部基本参数!!')
-      //   return
-      // }
-      // if(this.video === ''|| this.mechanical === ''
-      //   || this.OS === ''|| this.memory === ''){
-      //   alert('请输入全部存储参数!!')
-      //   return
-      // }
-      // if(this.screen === ''|| this.resolution === ''
-      //   || this.touch === ''){
-      //   alert('请输入全部显示参数参数!!')
-      //   return
-      // }
-      // if(this.packList.length === 0){
-      //   alert('包装清单不能为空!!')
-      //   return
-      // }
       this.params = []
       this.params.push({
         brand: this.brand,
@@ -436,7 +382,8 @@ export default {
         {name: 'num', param: this.num},
         {name: 'packList', param: JSON.stringify(this.packList)},
         {name: 'saler', param: this.userName},
-        {name: 'salerId', param: this.salerId}
+        {name: 'salerId', param: this.salerId},
+        {name: 'originalNum', param: this.num},
       ])
 
       this.axios.post('/api/goods/add',params).then((res)=>{

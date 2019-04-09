@@ -23,8 +23,8 @@
                 <td colspan="1">{{order.status}}</td>
                 <td colspan="1">{{order.salerName}}</td>
                 <td colspan="1">{{order.name}}</td>
-                <td colspan="1">{{order.price}}</td>
-                <td colspan="1">{{order.wantNum}}</td>
+                <td colspan="1">￥{{order.price}}</td>
+                <td colspan="1">{{order.num}}</td>
               </tr>
           </tbody>   
         </table>
@@ -43,7 +43,7 @@
               <td colspan="5">{{order.address}}</td>
               <td colspan="1">{{order.buyerName}}</td>
               <td colspan="1">{{order.phone}}</td>
-              <td colspan="1" style="color: orange;font-weight: bolder;font-size: 16px;">￥{{order.wantNum * order.price}}</td>
+              <td colspan="1" style="color: orange;font-weight: bolder;font-size: 16px;">￥{{order.num * order.price}}</td>
             </tr>
           </tbody>
         </table>
@@ -91,7 +91,7 @@
                 <tr>
                   <th>商品名称</th>
                   <th>商品单价</th>
-                  <th style="width: 100px">商品数量</th>
+                  <th style="width: 110px">商品数量</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,9 +99,9 @@
                   <td>{{currentOrder.name}}</td>
                   <td>￥{{currentOrder.price}}</td>
                   <td>
-                    <button class="btn btn-default" @click="currentOrder.wantNum>0?currentOrder.wantNum--:''">-</button>
-                    {{currentOrder.wantNum}}
-                    <button class="btn btn-default" @click="currentOrder.wantNum<currentOrder.num?currentOrder.wantNum++:''">+</button>
+                    <button class="btn btn-default" @click="currentOrder.num > 1 ? currentOrder.num--:''">-</button>
+                    {{currentOrder.num}}
+                    <button class="btn btn-default" @click="currentOrder.num < currentOrder.totalNum+currentOrder.currentNum ? currentOrder.num++:''">+</button>
                   </td>
                 </tr>
               </tbody>
@@ -140,7 +140,8 @@ export default {
   },
   methods:{
     editItem(order){
-      this.currentOrder = order;
+      this.currentOrder = order
+      this.currentOrder.currentNum = order.num
       $('#editModal').modal('show')
     },
     saveItem(id, obj){

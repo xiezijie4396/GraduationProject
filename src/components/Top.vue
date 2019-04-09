@@ -98,7 +98,7 @@
                   <th><input type="checkbox" @click="setCheckAll($event)" v-model="checkAll"></th>
                   <th>商品名称</th>
                   <th>商品单价</th>
-                  <th style="min-width: 100px">商品数量</th>
+                  <th style="min-width: 110px">商品数量</th>
                 </tr>
               </thead>
               <tbody>
@@ -107,9 +107,9 @@
                   <td>{{item.name}}</td>
                   <td>￥{{item.price}}</td>
                   <td>
-                    <button class="btn btn-default" @click="item.wantNum>0?item.wantNum--:''">-</button>
-                    {{item.wantNum}}
-                    <button class="btn btn-default" @click="item.wantNum<item.num?item.wantNum++:''">+</button>
+                    <button class="btn btn-default" @click="item.num>0?item.num--:''">-</button>
+                    {{item.num}}
+                    <button class="btn btn-default" @click="item.num<item.totalNum?item.num++:''">+</button>
                   </td>
                 </tr>
               </tbody>
@@ -143,7 +143,7 @@ export default {
     this.getOrder()
   },
   updated(){
-    this.getOrder()   // 处理切换用户时订单数据没有及时更新的问题
+    // this.getOrder()   // 处理切换用户时订单数据没有及时更新的问题
   },
   computed:{
     loginMsg(){
@@ -159,7 +159,7 @@ export default {
       var sum = 0
       this.shopCar.forEach((e)=>{
         if(e.checked){
-          sum += e.price * e.wantNum
+          sum += e.price * e.num
         }
       })
       return sum
@@ -281,12 +281,13 @@ export default {
         items.push({
           name: e.name,
           price: e.price,
-          wantNum: e.wantNum,
           num: e.num,
+          totalNum: e.totalNum,
           buyerName: this.loginMsg.username,
           salerName: e.saler,
           address: this.userDetail.address,
-          phone: this.userDetail.phone
+          phone: this.userDetail.phone,
+          goodsId: e._id
         })
       })
       var params = this.$common.setParams([
@@ -297,6 +298,7 @@ export default {
         // 生成订单后清空购物车
         this.$store.dispatch('clearShopCar').then((result) => {
           $('#shoppingModal').modal('hide')
+
           this.$router.push({
             path: '/order'
           })
